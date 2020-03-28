@@ -4,25 +4,22 @@ set -e
 
 . ./setenv.sh
 
-COMPS=$IDF_PATH/components
-: "${SYSROOT:=$(xtensa-esp32-elf-gcc --print-sysroot)}"
+# : "${SYSROOT:=$(xtensa-esp32-elf-gcc --print-sysroot)}"
+SYSROOT=/Users/phlmn/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/xtensa-esp32-elf/sys-include
 TARGET=xtensa-esp32-none-elf
 
 : "${BINDGEN:=bindgen}"
-: "${LIBCLANG_PATH:=../llvm-project/llvm/build/lib}"
+: "${LIBCLANG_PATH:=../llvm_build/lib}"
+
 CLANG_FLAGS="\
     --sysroot=$SYSROOT \
-    -I"$(pwd)" \
+    -I$SYSROOT \
+    -I$(pwd)
     -D__bindgen \
     --target=$TARGET \
     -x c"
 
-for INC in $(ls -d "$COMPS"/**/*/include); do
-    CLANG_FLAGS="${CLANG_FLAGS} -I$INC"
-done
-for INC in $(ls -d "$COMPS"/*/include); do
-    CLANG_FLAGS="${CLANG_FLAGS} -I$INC"
-done
+CLANG_FLAGS="${CLANG_FLAGS} ${CLANG_INCLUDES}"
 
 generate_bindings()
 {

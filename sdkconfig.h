@@ -4,6 +4,8 @@
  * Espressif IoT Development Framework Configuration
  *
  */
+#define CONFIG_IDF_TARGET_ESP32 1
+
 #define CONFIG_ESP32_PHY_MAX_TX_POWER 20
 #define CONFIG_TRACEMEM_RESERVE_DRAM 0x0
 #define CONFIG_FREERTOS_MAX_TASK_NAME_LEN 16
